@@ -55,10 +55,10 @@ runs:
         wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
-        mkdir .cache
-        mkdir -p .config/godot
-        mkdir -p .local/share/godot/templates/${{ inputs.godot-version }}.stable
-        mv templates/* .local/share/godot/templates/${{ inputs.godot-version }}.stable
+        mkdir ~/.cache
+        mkdir -p ~/.config/godot
+        mkdir -p ~/.local/share/godot/templates/${{ inputs.godot-version }}.stable
+        mv templates/* ~/.local/share/godot/templates/${{ inputs.godot-version }}.stable
         mv bin/godot .
         ./godot -e -q
 
