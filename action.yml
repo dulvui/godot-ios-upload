@@ -98,10 +98,10 @@ runs:
       run: |
         set -eo pipefail
         xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
+          -exportOptionsPlist exportOptions.plist \
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
-          -exportArchive \
-          -exportOptionsPlist exportOptions.plist \
+          -exportArchive
 
     - name: Publish the App on TestFlight
       shell: bash
