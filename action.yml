@@ -77,9 +77,8 @@ runs:
       shell: bash
       run: xcodebuild -project ios-export/${{ inputs.project-name }}.xcodeproj \
              -scheme ${{ inputs.project-name }} \
-             -sdk iphoneos \
-             -configuration Release archive\
-              -archivePath $PWD/build/${{ inputs.project-name }}.xcarchive
+             -configuration ${{ inputs.project-name }} archive \
+             -archivePath $PWD/build/${{ inputs.project-name }}
 
     - name: Archive the project
       shell: bash
