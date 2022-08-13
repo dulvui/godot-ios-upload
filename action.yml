@@ -71,6 +71,7 @@ runs:
       run: sudo xcode-select -switch /Applications/Xcode_13.0.app
 
     - name: Resolve package dependencies
+      shell: bash
       run: xcodebuild -resolvePackageDependencies
 
     - name: Build the xarchive
