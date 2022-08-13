@@ -82,7 +82,7 @@ runs:
         PWD: $PWD
       run: |
         set -eo pipefail
-        xcodebuild  clean archive
+        xcodebuild  clean archive \
           -scheme ${{ inputs.project-name }} \
           -configuration "Release" \
           -archivePath $PWD/build/${{ inputs.project-name }} \
