@@ -81,11 +81,12 @@ runs:
           -scheme ${{ inputs.project-name }} \
           -configuration ${{ inputs.project-name }} archive \
           -archivePath $PWD/build/${{ inputs.project-name }} \
+          -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
+          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_STYLE=Manual \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
-#          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
 
     - name: Export .ipa
       shell: bash
