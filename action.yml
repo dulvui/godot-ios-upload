@@ -77,10 +77,11 @@ runs:
       shell: bash
       run: |
         set -eo pipefail
-        xcodebuild -project ${{ inputs.project-name }}.xcodeproj \
+        xcodebuild  clean archive
           -scheme ${{ inputs.project-name }} \
-          -configuration ${{ inputs.project-name }} archive \
+          -configuration "Release" \
           -archivePath $PWD/build/${{ inputs.project-name }} \
+          -sdk iphoneos \
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
           PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
