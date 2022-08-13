@@ -81,9 +81,7 @@ runs:
           -scheme ${{ inputs.project-name }} \
           -configuration "Release" \
           -archivePath $PWD/build/${{ inputs.project-name }} \
-          -sdk iphoneos \
           -destination "generic/platform=iOS,name=Any iOS Device" \
-          -allowProvisioningUpdates \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
           PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_STYLE=Manual \
