@@ -73,9 +73,11 @@ runs:
     # - name: Resolve package dependencies
     #   run: xcodebuild -resolvePackageDependencies
 
-    - name: Build the archive
+    - name: Build the xarchive
       shell: bash
-      run: xcodebuild -project ios-export/${{ inputs.project-name }}.xcodeproj \
+      run: |
+        set -eo pipefail
+        xcodebuild -project ios-export/${{ inputs.project-name }}.xcodeproj \
              -scheme ${{ inputs.project-name }} \
              -configuration ${{ inputs.project-name }} archive \
              -archivePath $PWD/build/${{ inputs.project-name }}
