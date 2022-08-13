@@ -76,6 +76,10 @@ runs:
 
     - name: Build the xarchive
       shell: bash
+      env:
+        PROVISIONING_PROFILE: ${{ inputs.provisioning-profile-id }}
+        RUNNER_TEMP: $RUNNER_TEMP
+        PWD: $PWD
       run: |
         set -eo pipefail
         xcodebuild  clean archive
@@ -84,7 +88,7 @@ runs:
           -archivePath $PWD/build/${{ inputs.project-name }} \
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
-          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
+          PROVISIONING_PROFILE=$PROVISIONING_PROFILE \
           CODE_SIGN_STYLE=Manual \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
