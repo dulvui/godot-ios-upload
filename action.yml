@@ -66,12 +66,12 @@ runs:
       shell: bash
       run: ./godot --path ${{ inputs.working-directory }} --export iOS
 
-    # - name: Force XCode 13.0.0
-    #   shell: bash
-    #   run: sudo xcode-select -switch /Applications/Xcode_13.0.app
+    - name: Force XCode 13.0.0
+      shell: bash
+      run: sudo xcode-select -switch /Applications/Xcode_13.0.app
 
-    # - name: Resolve package dependencies
-    #   run: xcodebuild -resolvePackageDependencies
+    - name: Resolve package dependencies
+      run: xcodebuild -resolvePackageDependencies
 
     - name: Build the xarchive
       shell: bash
