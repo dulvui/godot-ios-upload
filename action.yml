@@ -1,0 +1,112 @@
+
+name: 'Godot Engine: Export to iOS and upload to Testflight'
+
+inputs:
+  working-directory:
+    description: 'The working directory'
+    required: false
+    default: '.'
+  godot-version:
+    description: 'Godot Engine version'
+    required: false
+    default: '3.5'
+  project-name:
+    description: 'Project name used for xarchive building'
+    required: true
+  apple-id-username:
+    description: 'Apple ID username'
+    required: true
+  apple-id-password:
+    description: 'Apple ID password'
+    required: true
+  provisioning-profile-id:
+      description: 'Provisioning profile ID'
+      required: true
+  cache-version:
+    description: 'Version for Godot files cache, to be able to clear cache'
+    required: false
+    default: 1
+
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Check is running on mac-os
+      if: runner.os != 'macos'
+      shell:
+      run: exit 1
+    
+    - name: Cache Godot files
+      id: cache-godot
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/godot/**
+          ~godot
+          ~/.cache/**
+          ~/.config/godot/**
+        key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-v${{ inputs.cache-version }}
+
+    - name: Download and config Godot Engine headless linux server and templates
+      if: steps.cache-godot.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        wget -q https://github.com/huskeee/godot-headless-mac/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
+        wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+        unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+        unzip Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
+        mkdir .cache
+        mkdir -p .config/godot
+        mkdir -p .local/share/godot/templates/${{ inputs.godot-version }}.stable
+        mv templates/iphone.zip .local/share/godot/templates/${{ inputs.godot-version }}.stable
+        mv bin/godot .
+        ./godot -e -q
+
+        rm -f Godot_v${{ inputs.godot-version }}-stable_linux_headless.64.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+
+    - name: Godot iOS export
+      shell: bash
+      run: ./godot --path ${{ inputs.working-directory }} --export iOS
+
+    - name: Force XCode 13.0.0
+      run: sudo xcode-select -switch /Applications/Xcode_13.0.app
+
+    # - name: Resolve package dependencies
+    #   run: xcodebuild -resolvePackageDependencies
+
+    - name: Build the archive
+      shell: bash
+      run: xcodebuild -project ios-export/${{ inputs.project-name }}.xcodeproj \
+             -scheme ${{ inputs.project-name }} \
+             -sdk iphoneos \
+             -configuration Release archive\
+              -archivePath $PWD/build/${{ inputs.project-name }}.xcarchive
+
+    - name: Archive the project
+      shell: bash
+      run: |
+        set -eo pipefail
+        xcodebuild clean archive \
+          -configuration "Release" \
+          -scheme {{ inputs.project-name }} \
+          -sdk iphoneos \
+          -archivePath " $PWD/build/{{ inputs.project-name }}.xcarchive" \
+          -destination "generic/platform=iOS,name=Any iOS Device" \
+          OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/build.keychain" \
+          CODE_SIGN_STYLE=Manual \
+          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
+          CODE_SIGN_IDENTITY="Apple Distribution"
+
+    - name: Publish the App on TestFlight
+      if: success()
+      env:
+        APPLEID_USERNAME: ${{ inputs.apple-id-username }}
+        APPLEID_PASSWORD: ${{ inputs.apple-id-password }}
+      run: |
+        xcrun altool \
+          --upload-app \
+          -t ios \
+          -f $PWD/build/{{ inputs.project-name }}.ipa \
+          -u "${{ inputs.apple-id-username }}" \
+          -p "${{ inputs.apple-id-password }}" \
+          --verbose
