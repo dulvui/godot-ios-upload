@@ -100,7 +100,7 @@ runs:
         xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
-          -exportArchive
+          -exportArchive \
           -exportOptionsPlist exportOptions.plist \
 
     - name: Publish the App on TestFlight
