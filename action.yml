@@ -77,7 +77,7 @@ runs:
       shell: bash
       run: |
         set -eo pipefail
-        xcodebuild -project ios-export/${{ inputs.project-name }}.xcodeproj \
+        xcodebuild -project ${{ inputs.project-name }}.xcodeproj \
              -scheme ${{ inputs.project-name }} \
              -configuration ${{ inputs.project-name }} archive \
              -archivePath $PWD/build/${{ inputs.project-name }}
