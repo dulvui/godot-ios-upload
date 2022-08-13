@@ -99,6 +99,7 @@ runs:
           CODE_SIGN_IDENTITY="Apple Distribution"
 
     - name: Publish the App on TestFlight
+      shell: bash
       if: success()
       env:
         APPLEID_USERNAME: ${{ inputs.apple-id-username }}
