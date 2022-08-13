@@ -58,7 +58,7 @@ runs:
         mkdir .cache
         mkdir -p .config/godot
         mkdir -p .local/share/godot/templates/${{ inputs.godot-version }}.stable
-        mv templates/iphone.zip .local/share/godot/templates/${{ inputs.godot-version }}.stable
+        mv templates/* .local/share/godot/templates/${{ inputs.godot-version }}.stable
         mv bin/godot .
         ./godot -e -q
 
