@@ -78,24 +78,24 @@ runs:
       run: |
         set -eo pipefail
         xcodebuild -project ${{ inputs.project-name }}.xcodeproj \
-             -scheme ${{ inputs.project-name }} \
-             -configuration ${{ inputs.project-name }} archive \
-             -archivePath $PWD/build/${{ inputs.project-name }}
+          -scheme ${{ inputs.project-name }} \
+          -configuration ${{ inputs.project-name }} archive \
+          -archivePath $PWD/build/${{ inputs.project-name }} \
+          OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db \
+          CODE_SIGN_STYLE=Manual \
+          CODE_SIGN_IDENTITY="Apple Distribution"
+#          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
 
-    - name: Archive the project
+    - name: Export .ipa
       shell: bash
       run: |
         set -eo pipefail
-        xcodebuild clean archive \
-          -configuration "Release" \
-          -scheme {{ inputs.project-name }} \
-          -sdk iphoneos \
-          -archivePath " $PWD/build/{{ inputs.project-name }}.xcarchive" \
-          -destination "generic/platform=iOS,name=Any iOS Device" \
-          OTHER_CODE_SIGN_FLAGS="--keychain ~/Library/Keychains/build.keychain" \
-          CODE_SIGN_STYLE=Manual \
-          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
-          CODE_SIGN_IDENTITY="Apple Distribution"
+        xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
+#          -exportOptionsPlist exportOptions.plist \
+          -exportPath $PWD/build \
+          -allowProvisioningUpdates \
+          -exportArchive
+
 
     - name: Publish the App on TestFlight
       shell: bash
