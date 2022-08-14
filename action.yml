@@ -82,7 +82,7 @@ runs:
           -scheme ${{ inputs.project-name }} \
           -configuration "Release" \
           -sdk iphoneos \
-          -archivePath $PWD/build/${{ inputs.project-name }} \
+          -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
           CODE_SIGN_STYLE=Manual \
@@ -93,7 +93,7 @@ runs:
       shell: bash
       run: |
         set -eo pipefail
-        xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}" \
+        xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
           -exportOptionsPlist exportOptions.plist \
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
