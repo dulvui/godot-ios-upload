@@ -93,7 +93,7 @@ runs:
       shell: bash
       run: |
         set -eo pipefail
-        xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
+        xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}" \
           -exportOptionsPlist exportOptions.plist \
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
