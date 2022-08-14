@@ -86,7 +86,7 @@ runs:
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
           CODE_SIGN_STYLE=Manual \
-          PROVISIONING_PROFILE='${{ inputs.provisioning-profile-id }}' \
+          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
     - name: Export .ipa
@@ -96,7 +96,9 @@ runs:
         xcodebuild -archivePath "$PWD/build/${{ inputs.project-name }}.xcarchive" \
           -exportOptionsPlist exportOptions.plist \
           -exportPath $PWD/build \
-          -exportArchive
+          -allowProvisioningUpdates \
+          -exportArchive \
+          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }}
 
     - name: Publish the App on TestFlight
       shell: bash
