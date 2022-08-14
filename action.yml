@@ -66,9 +66,9 @@ runs:
       shell: bash
       run: ./godot --path ${{ inputs.working-directory }} --export iOS
 
-    - name: Force XCode 13.0.0
+    - name: Force XCode 12.5.0
       shell: bash
-      run: sudo xcode-select -switch /Applications/Xcode_13.0.app
+      run: sudo xcode-select -switch /Applications/Xcode_12.5.app
 
     - name: Resolve package dependencies
       shell: bash
@@ -88,10 +88,6 @@ runs:
           CODE_SIGN_STYLE=Manual \
           PROVISIONING_PROFILE='${{ inputs.provisioning-profile-id }}' \
           CODE_SIGN_IDENTITY="Apple Distribution"
-
-    - name: Debug exportOptions.plist
-      shell: bash
-      run: cat exportOptions.plist
 
     - name: Export .ipa
       shell: bash
