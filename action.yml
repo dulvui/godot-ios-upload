@@ -76,22 +76,22 @@ runs:
 
     - name: Build the xarchive
       shell: bash
-      env:
-        PROVISIONING_PROFILE: ${{ inputs.provisioning-profile-id }}
-        RUNNER_TEMP: $RUNNER_TEMP
-        PWD: $PWD
       run: |
         set -eo pipefail
         xcodebuild  clean archive \
           -scheme ${{ inputs.project-name }} \
           -configuration "Release" \
+          -sdk iphoneos \
           -archivePath $PWD/build/${{ inputs.project-name }} \
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
-          PROVISIONING_PROFILE=$PROVISIONING_PROFILE \
           CODE_SIGN_STYLE=Manual \
+          PROVISIONING_PROFILE='${{ inputs.provisioning-profile-id }}' \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
+    - name: Debug exportOptions.plist
+      shell: bash
+      run: cat exportOptions.plist
 
     - name: Export .ipa
       shell: bash
