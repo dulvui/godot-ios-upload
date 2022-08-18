@@ -86,7 +86,6 @@ runs:
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
           CODE_SIGN_STYLE=Manual \
-          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
     - name: Export .ipa
@@ -109,7 +108,7 @@ runs:
         xcrun altool \
           --upload-app \
           -t ios \
-          -f $PWD/build/{{ inputs.project-name }}.ipa \
+          -f $PWD/build/${{ inputs.project-name }}.ipa \
           -u "${{ inputs.apple-id-username }}" \
           -p "${{ inputs.apple-id-password }}" \
           --verbose
