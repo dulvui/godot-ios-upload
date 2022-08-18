@@ -97,7 +97,11 @@ runs:
           -exportOptionsPlist exportOptions.plist \
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
-          -exportArchive
+          -exportArchive\
+          OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
+          CODE_SIGN_STYLE=Manual \
+          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
+          CODE_SIGN_IDENTITY="Apple Distribution"
 
     - name: Publish the App on TestFlight
       shell: bash
