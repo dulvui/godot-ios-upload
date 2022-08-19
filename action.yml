@@ -89,6 +89,14 @@ runs:
           PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
+    - name: Debug: find ipa location
+      shell: bash
+      run: |
+        echo "PWD/build"
+        ls $PWD/build
+        echo "PWD"
+        ls $PWD
+
     - name: Export .ipa
       shell: bash
       run: |
@@ -97,11 +105,7 @@ runs:
           -exportOptionsPlist exportOptions.plist \
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
-          -exportArchive \
-          OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
-          CODE_SIGN_STYLE=Manual \
-          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
-          CODE_SIGN_IDENTITY="Apple Distribution"
+          -exportArchive
 
     - name: Publish the App on TestFlight
       shell: bash
