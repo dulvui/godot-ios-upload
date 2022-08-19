@@ -89,14 +89,6 @@ runs:
           PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
-    - name: Debug find ipa location
-      shell: bash
-      run: |
-        echo "PWD/build"
-        ls $PWD/build
-        echo "PWD"
-        ls $PWD
-
     - name: Export .ipa
       shell: bash
       run: |
@@ -106,6 +98,14 @@ runs:
           -exportPath $PWD/build \
           -allowProvisioningUpdates \
           -exportArchive
+
+    - name: Debug find ipa location
+      shell: bash
+      run: |
+        echo "PWD/build"
+        ls $PWD/build
+        echo "PWD"
+        ls $PWD
 
     - name: Publish the App on TestFlight
       shell: bash
