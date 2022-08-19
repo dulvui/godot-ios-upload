@@ -89,7 +89,7 @@ runs:
           PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
-    - name: Debug: find ipa location
+    - name: Debug find ipa location
       shell: bash
       run: |
         echo "PWD/build"
