@@ -117,7 +117,7 @@ runs:
         xcrun altool \
           --upload-app \
           -t ios \
-          -f $PWD/build/Pocket\ Broomball.ipa \ Pocket Broomball.ipa
+          -f $PWD/build/Pocket\ Broomball.ipa \
           -u "${{ inputs.apple-id-username }}" \
           -p "${{ inputs.apple-id-password }}" \
           --verbose
