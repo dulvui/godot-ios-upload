@@ -19,9 +19,6 @@ inputs:
   apple-id-password:
     description: 'Apple ID password'
     required: true
-  provisioning-profile-path:
-      description: 'Provisioning profile path'
-      required: true
   cache-version:
     description: 'Version for Godot files cache, to be able to clear cache'
     required: false
@@ -68,7 +65,7 @@ runs:
 
     - name: Extract Provisioning profile UUID and create PP_UUID env variable
       shell: bash
-      run: echo "PP_UUID=$(grep -a -A 1 'UUID' ${{ inputs.provisioning-profile-path }} | grep string | sed -e "s|<string>||" -e "s|</string>||" | tr -d '\t')" >> $GITHUB_ENV
+      run: echo "PP_UUID=$(grep -a -A 1 'UUID' /Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision | grep string | sed -e "s|<string>||" -e "s|</string>||" | tr -d '\t')" >> $GITHUB_ENV
 
     - name: Force XCode 13.4
       shell: bash
