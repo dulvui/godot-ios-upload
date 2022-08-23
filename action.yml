@@ -19,8 +19,8 @@ inputs:
   apple-id-password:
     description: 'Apple ID password'
     required: true
-  provisioning-profile-id:
-      description: 'Provisioning profile ID'
+  provisioning-profile-path:
+      description: 'Provisioning profile path'
       required: true
   cache-version:
     description: 'Version for Godot files cache, to be able to clear cache'
@@ -66,6 +66,10 @@ runs:
       shell: bash
       run: ./godot --path ${{ inputs.working-directory }} --export iOS
 
+    - name: Extract Provisioning profile UUID and create PP_UUID env variable
+      shell: bash
+      run: echo "PP_UUID=$(grep -a -A 1 'UUID' ${{ inputs.provisioning-profile-path }} | grep string | sed -e "s|<string>||" -e "s|</string>||" | tr -d '\t')" >> $GITHUB_ENV
+
     - name: Force XCode 13.4
       shell: bash
       run: sudo xcode-select -switch /Applications/Xcode_13.4.app
@@ -86,7 +90,7 @@ runs:
           -destination "generic/platform=iOS,name=Any iOS Device" \
           OTHER_CODE_SIGN_FLAGS="--keychain $RUNNER_TEMP/app-signing.keychain-db" \
           CODE_SIGN_STYLE=Manual \
-          PROVISIONING_PROFILE=${{ inputs.provisioning-profile-id }} \
+          PROVISIONING_PROFILE=$PP_UUID \
           CODE_SIGN_IDENTITY="Apple Distribution"
 
     - name: Export .ipa
