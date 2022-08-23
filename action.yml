@@ -13,8 +13,14 @@ inputs:
   project-name:
     description: 'Project name used for xarchive building'
     required: true
-  apple-id-username:
-    description: 'Apple ID username'
+  certificate-base64:
+    description: 'Valid certificate in base64 format'
+    required: true
+  provision-profile-base64:
+    description: 'Valid provision profile in base64 format'
+    required: true
+  p12-password:
+    description: 'P12 password of the certificate'
     required: true
   apple-id-password:
     description: 'Apple ID password'
@@ -30,8 +36,37 @@ runs:
   steps:
     - name: Check is running on mac-os
       if: runner.os != 'macos'
-      shell:
+      shell: bash
       run: exit 1
+
+    # https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development
+    - name: Install the Apple certificate and provisioning profile
+      shell: bash
+      run: |
+        # create variables
+        CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+        PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+        KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+        # import certificate and provisioning profile from secrets
+        echo -n "${{ inputs.certificate-base64 }}" | base64 --decode --output $CERTIFICATE_PATH
+        echo -n "${{ inputs.provision-profile-base64}}" | base64 --decode --output $PP_PATH
+
+        # create temporary keychain
+        security create-keychain -p "" $KEYCHAIN_PATH
+        security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+        security unlock-keychain -p "" $KEYCHAIN_PATH
+
+        # import certificate to keychain
+        security import $CERTIFICATE_PATH -P "${{ inputs.p12-password }}" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+        security list-keychain -d user -s $KEYCHAIN_PATH
+
+        security default-keychain -s $KEYCHAIN_PATH
+        security set-key-partition-list -S apple-tool:,apple: -s -k "" $KEYCHAIN_PATH
+
+        # apply provisioning profile
+        mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
     
     - name: Cache Godot files
       id: cache-godot
@@ -65,7 +100,7 @@ runs:
 
     - name: Extract Provisioning profile UUID and create PP_UUID env variable
       shell: bash
-      run: echo "PP_UUID=$(grep -a -A 1 'UUID' /Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision | grep string | sed -e "s|<string>||" -e "s|</string>||" | tr -d '\t')" >> $GITHUB_ENV
+      run: echo "PP_UUID=$(grep -a -A 1 'UUID' ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision | grep string | sed -e "s|<string>||" -e "s|</string>||" | tr -d '\t')" >> $GITHUB_ENV
 
     - name: Force XCode 13.4
       shell: bash
