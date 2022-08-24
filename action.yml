@@ -16,9 +16,6 @@ inputs:
   provision-profile-path:
     description: 'Path of a valid provision profile file'
     required: true
-  p12-password:
-    description: 'P12 password of the certificate'
-    required: true
   apple-id-password:
     description: 'Apple ID password'
     required: true
