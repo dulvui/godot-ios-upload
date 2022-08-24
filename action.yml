@@ -1,5 +1,7 @@
 
-name: 'Godot Engine: Export to iOS and upload to Testflight'
+name: 'Godot iOS Release'
+description: 'Godot Engine: Export to iOS and upload to Testflight'
+author: 'Simon Dalvai @dulvui'
 
 inputs:
   working-directory:
