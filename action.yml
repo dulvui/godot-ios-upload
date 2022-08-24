@@ -42,7 +42,7 @@ runs:
       with:
         path: |
           ~/.local/share/godot/**
-          ~/godot
+          godot
           ~/.config/godot/**
         key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-v${{ inputs.cache-version }}
 
