@@ -3,6 +3,7 @@ name: 'Godot iOS Release'
 description: 'Godot Engine: Export to iOS and upload to Testflight'
 author: 'Simon Dalvai @dulvui'
 color: white
+icon: upload-cloud
 
 inputs:
   working-directory:
