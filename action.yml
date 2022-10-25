@@ -14,7 +14,7 @@ inputs:
   godot-version:
     description: 'Godot Engine version'
     required: false
-    default: '3.5'
+    default: '3.5.1'
   project-name:
     description: 'Project name used for xarchive building'
     required: true
@@ -27,10 +27,6 @@ inputs:
   apple-id-username:
     description: 'Apple ID username'
     required: true
-  cache-version:
-    description: 'Version for Godot files cache, to be able to clear cache'
-    required: false
-    default: 1
 
   
 runs:
@@ -49,7 +45,7 @@ runs:
           ~/.local/share/godot/**
           godot
           ~/.config/godot/**
-        key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-v${{ inputs.cache-version }}
+        key: ${{ runner.os }}-godot-${{ inputs.godot-version }}
 
     - name: Download and config Godot Engine headless linux server and templates
       if: steps.cache-godot.outputs.cache-hit != 'true'
