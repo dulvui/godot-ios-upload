@@ -1,5 +1,5 @@
 
-name: 'Godot iOS Release'
+name: 'Godot iOS Upload'
 description: 'Godot Engine: Export to iOS and upload to Testflight'
 author: 'Simon Dalvai @dulvui'
 branding:
