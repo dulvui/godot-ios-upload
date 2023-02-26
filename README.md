@@ -15,10 +15,9 @@ If you are facing problems with the action or this README feels uncomplete, pull
 
 ## Requirements
  - Apple Developer Account
+ - App-specific password
  - Godot Project with a iOS Export
  - Certificate and Provision Profile
-
-Note: Its recommended to create an Apple Developer service account to use a separate user/password to upload.
 
 
 ## App-specific password
@@ -27,7 +26,7 @@ But for security reasons it is not recommended to do that, so prefer to use an a
 1. Sign in to appleid.apple.com.
 2. In the Sign-In and Security section, select App-Specific Passwords.
 3. Select Generate an app-specific password or select the Add button, then follow the steps on your screen.
-4. Enter or paste the app-specific password into the password field of the app.
+4. Enter or paste the app-specific to the Action secrets.
 
 Find here the official instructions on how to create an app-specific password:
 [support.apple.com/en-us/HT204397](https://support.apple.com/en-us/HT204397)
