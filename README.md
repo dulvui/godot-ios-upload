@@ -41,7 +41,7 @@ Note: An API key generated from [appstoreconnect.apple.com/access/api](https://a
 | apple-id-username | true |   | Apple ID email |
 | apple-id-password | true |   | App specific password |
 | working-directory | false | . | Path to .project file |
-| godot-version | false | 3.5 | Check versions [here](https://github.com/huskeee/godot-headless-mac/releases) |
+| godot-version | false | 3.5.2 | Check versions [here](https://github.com/huskeee/godot-headless-mac/releases) |
 | cache-version | false | 1 | Headless godot gets cached, on problems increase version |
 
 ## Working examples

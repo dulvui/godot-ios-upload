@@ -14,7 +14,7 @@ inputs:
   godot-version:
     description: 'Godot Engine version'
     required: false
-    default: '3.5.1'
+    default: '3.5.2'
   project-name:
     description: 'Project name used for xarchive building'
     required: true
