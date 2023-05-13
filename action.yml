@@ -71,10 +71,6 @@ runs:
       shell: bash
       run: echo "PP_UUID=$(grep -a -A 1 'UUID' ${{ inputs.provision-profile-path }} | grep string | sed -e "s|<string>||" -e "s|</string>||" | tr -d '\t')" >> $GITHUB_ENV
 
-    - name: Force XCode 13.4
-      shell: bash
-      run: sudo xcode-select -switch /Applications/Xcode_13.4.app
-
     - name: Resolve package dependencies
       shell: bash
       run: xcodebuild -resolvePackageDependencies
