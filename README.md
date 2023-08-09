@@ -6,12 +6,17 @@ If you are facing problems with the action or this README feels uncomplete, pull
 ## Table of contents
 - [godot-ios-upload](#godot-ios-upload)
   - [Table of contents](#table-of-contents)
+  - [Godot 4.x support](#godot-4x-support)
   - [Requirements](#requirements)
   - [App-specific password](#app-specific-password)
   - [Parameters](#parameters)
   - [Working examples](#working-examples)
   - [License](#license)
 
+
+## Godot 4.x support
+This action currently only works with Godot 3.x and I will update the action as soon as I create a valid Godot 4.x game.  
+If you really need Godot 4.x support, pull requests are always welcome :-) or simply open an issue and I'll do my best to update it. But of course I'll need your help for testing.
 
 ## Requirements
  - Apple Developer Account
