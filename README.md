@@ -11,6 +11,8 @@ If you are facing problems with the action or this README feels uncomplete, pull
   - [App-specific password](#app-specific-password)
   - [Parameters](#parameters)
   - [Working examples](#working-examples)
+  - [Certificate Request without a Mac](#certificate-request-without-a-mac)
+  - [Github Actions pricing](#github-actions-pricing)
   - [License](#license)
 
 
@@ -52,6 +54,53 @@ Note: An API key generated from [appstoreconnect.apple.com/access/api](https://a
 ## Working examples
 You an find a working examples here:  
 https://github.com/dulvui/pocket-broomball/blob/main/.github/workflows/upload-ios.yml
+
+## Certificate Request without a Mac
+To upload a game to the App Store, you need to create a Developer Certificate.
+The official Apple guide shows you how to do it easily with a Mac device in its official [documentation](https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request).
+
+But it can be done also without a Mac, using a Linux System, following [this guide](https://gist.github.com/jcward/d08b33fc3e6c5f90c18437956e5ccc35) of a Github user.
+
+Here you can find the needed steps, but since this might change over time, please always check the comments of the guide above.
+
+1. Generate a private key and certificate signing request:
+Change "info@simondalvai.org" and "Simon Dalvai" with your values.
+```sh
+openssl genrsa -out distribution.key 2048
+openssl req -new -key distribution.key -out distribution.csr -subj '/emailAddress=info@simondalvai.org, CN=Simon Dalvai, C=IT'
+```
+2. Upload CSR to apple at: https://developer.apple.com/account/ios/certificate/create
+Choose Production -> App Store and Ad Hoc
+3. Download the resulting distribution.cer, and convert it to .pem format:
+```sh
+openssl x509 -inform der -in distribution.cer -out distribution.pem
+```
+4. Download Apple's Worldwide developer cert from portal and convert it to pem:  
+   https://www.apple.com/certificateauthority/ - Worldwide Developer Relations - G4 (Expiring 12/10/2030 00:00:00 UTC
+
+```sh
+openssl x509 -in AppleWWDRCAG4.cer -inform DER -out AppleWWDRCAG4.pem -outform PEM
+```
+5. Convert your cert plus Apple's cert to p12 format (choose a password for the .p12):
+
+Note: use -legacy if using opensssl v3.x https://stackoverflow.com/questions/70431528/mac-verification-failed-during-pkcs12-import-wrong-password-azure-devops
+```sh
+openssl pkcs12 -export -legacy -out distribution.p12 -inkey distribution.key -in distribution.pem -certfile AppleWWDRCAG4.pem 
+```
+Finally, update any provisioning profiles with the new cert, and download from dev portal.
+6. Create base64 of distribution.p12 for github actions
+Now you can prepare it for the Github Action
+```sh
+base64 distribution.p12 -w 0 > distribution.base64
+```
+7. Add distribution.base64 and the previous created p12 password to the Github Action secrets in your repository settings
+
+## Github Actions pricing
+Github Actions are always free only for Open Source repositories.
+On private you get 2000 to 3000 run minutes per month, depending on the type of your account.
+Additionally, MacOS actions consume 10x times the minutes of a Linux machine, so you actually get 200 to 300 minutes per month.
+
+Here the detailed documentation about pricing https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
 
 ## License
 This software is licensed under the [MIT license](LICENSE).
