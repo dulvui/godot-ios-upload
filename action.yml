@@ -60,14 +60,14 @@ runs:
         touch ~/.config/godot/editor_settings-4.tres
         mv templates/* ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
         rm -f Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        mv ./Godot_v${{ inputs.godot-version }}-stable_macos.universal /usr/local/bin/godot
-        godot --headless --path ${{ inputs.working-directory }} --quit
+        mv ./Godot_v${{ inputs.godot-version }}-stable_macos.universal godot
+        ./godot --path ${{ inputs.working-directory }} --quit
 
         rm -f Godot_v${{ inputs.godot-version }}-stable_linux_headless.64.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
 
     - name: Godot iOS export
       shell: bash
-      run: godot --headless --path ${{ inputs.working-directory }} --export-release iOS
+      run: ./godot --headless --path ${{ inputs.working-directory }} --export-release iOS
 
     - name: Extract Provisioning profile UUID and create PP_UUID env variable
       shell: bash
