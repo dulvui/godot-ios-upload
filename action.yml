@@ -60,7 +60,7 @@ runs:
 
     - name: Godot iOS export
       shell: bash
-      run: open -n Godot.app --args --headless --path ${{ inputs.working-directory }} --export-release iOS
+      run: ./Godot.app/Contents/MacOS/Godot --headless --path ${{ inputs.working-directory }} --export-release iOS
 
     - name: Extract Provisioning profile UUID and create PP_UUID env variable
       shell: bash
