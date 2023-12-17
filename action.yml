@@ -58,8 +58,8 @@ runs:
         mkdir -p ~/.config/godot
         mkdir -p ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
         mv templates/* ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
-        ./godot --headless --quit
-
+        touch ~/.config/godot/editor_settings-4.tres
+        mv bin/godot .
         rm -f Godot_v${{ inputs.godot-version }}-stable_linux_headless.64.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
 
     - name: Godot iOS export
