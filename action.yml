@@ -47,25 +47,25 @@ runs:
           ~/.config/godot/**
         key: ${{ runner.os }}-godot-${{ inputs.godot-version }}
 
-    - name: Download and config Godot Engine linux server and templates
-      shell: bash
+    - name: Download and config Godot Engine headless linux server and templates
       if: steps.cache-godot.outputs.cache-hit != 'true'
+      shell: bash
       run: |
-        wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
+        wget -q https://github.com/dulvui/godot-headless-mac/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
         wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        unzip Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
         unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+        unzip Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
+        mkdir -p ~/.config/godot
         mkdir -p ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
-        mkdir -p ~/.config/godot/
-        touch ~/.config/godot/editor_settings-4.tres
         mv templates/* ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
-        rm -f Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+        mv bin/godot .
+        ./godot --headless --quit
+
         rm -f Godot_v${{ inputs.godot-version }}-stable_linux_headless.64.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        open -n Godot.app --args --headless --quit
 
     - name: Godot iOS export
       shell: bash
-      run: open -n Godot.app --args --headless --path ${{ inputs.working-directory }} --export-release iOS
+      run: ./godot --headless --path ${{ inputs.working-directory }} --export-release iOS
 
     - name: Extract Provisioning profile UUID and create PP_UUID env variable
       shell: bash
