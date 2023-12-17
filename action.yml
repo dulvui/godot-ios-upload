@@ -55,13 +55,8 @@ runs:
         wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
         unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        mkdir -p ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
-        mkdir -p ~/.config/godot/
-        touch ~/.config/godot/editor_settings-4.tres
-        mv templates/* ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
-        rm -f Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        rm -f Godot_v${{ inputs.godot-version }}-stable_linux_headless.64.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        open -n Godot.app --args --headless --quit
+        mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
+        mv templates/* ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
 
     - name: Godot iOS export
       shell: bash
