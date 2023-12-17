@@ -1,30 +1,79 @@
 # godot-ios-upload
-Github Action to export a Godot game to iOS and upload it on App Store.  
-It uses https://github.com/huskeee/godot-headless-mac to do the export.  
-If you are facing problems with the action or this README feels uncomplete, pull requests are welcome or open an issue.
+Github Action to export a Godot 3.x and 4.x game to iOS and upload it on App Store.  
+If you are facing problems with the action or this README feels incomplete, pull requests are welcome or open an issue.
 
 ## Table of contents
 - [godot-ios-upload](#godot-ios-upload)
   - [Table of contents](#table-of-contents)
-  - [Godot 4.x support](#godot-4x-support)
-  - [Requirements](#requirements)
+  - [Godot 4.x](#godot-4x)
+    - [Requirements](#requirements)
+    - [Parameters](#parameters)
+    - [How to use](#how-to-use)
+  - [Godot 3.x](#godot-3x)
+    - [Working examples](#working-examples)
+    - [Parameters](#parameters-1)
+    - [Working examples](#working-examples-1)
   - [App-specific password](#app-specific-password)
-  - [Parameters](#parameters)
-  - [Working examples](#working-examples)
   - [Certificate Request without a Mac](#certificate-request-without-a-mac)
   - [Github Actions pricing](#github-actions-pricing)
   - [License](#license)
 
+## Godot 4.x
+Godot 4.x is the current active stable version and will be actively maintained.
+You can find the code in the `main` branch.
 
-## Godot 4.x support
-This action currently only works with Godot 3.x and I will update the action as soon as I create a valid Godot 4.x game.  
-If you really need Godot 4.x support, pull requests are always welcome :-) or simply open an issue and I'll do my best to update it. But of course I'll need your help for testing.
-
-## Requirements
+### Requirements
  - Apple Developer Account
  - App-specific password
  - Godot Project with a iOS Export
  - Certificate and Provision Profile
+
+
+### Parameters
+| key | required | default | description |
+| ----|----------|---------|-------------|
+| project-name | true |  | Name used in xcodebuild |
+| apple-id-username | true |   | Apple ID email |
+| apple-id-password | true |   | App specific password |
+| working-directory | false | . | Path to .project file |
+| godot-version | false | 3.5.3 | Check versions [here](https://github.com/huskeee/godot-headless-mac/releases) |
+| cache-version | false | 1 | Headless godot gets cached, on problems increase version |
+
+### How to use
+Use the 4.x tag
+```
+- name: Export and upload to Testflight
+  uses: dulvui/godot-ios-upload@v4
+  with:
+    project-name: FutsalManager
+    provision-profile-path: ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+    apple-id-username: ${{ secrets.IOS_APPLE_ID_USERNAME }}
+    apple-id-password: ${{ secrets.IOS_APPLE_ID_PASSWORD }}
+```
+
+## Godot 3.x
+Godot 3.x is the current LTS version and will be less actively maintained.
+You can find the code in the `godot-3` branch.
+
+### Working examples
+You an find a working examples here:  
+https://github.com/dulvui/pocket-broomball/blob/main/.github/workflows/upload-ios.yml  
+https://github.com/dulvui/ball2box/blob/main/.github/workflows/upload-ios.yml
+
+
+### Parameters
+| key | required | default | description |
+| ----|----------|---------|-------------|
+| project-name | true |  | Name used in xcodebuild |
+| apple-id-username | true |   | Apple ID email |
+| apple-id-password | true |   | App specific password |
+| working-directory | false | . | Path to .project file |
+| godot-version | false | 4.2.1 | Check versions [here](https://downloads.tuxfamily.org/godotengine/) |
+| cache-version | false | 1 | Headless godot gets cached, on problems increase version |
+
+### Working examples
+You an find a working examples here:  
+https://github.com/dulvui/futsal-manager/blob/main/.github/workflows/upload-ios.yml
 
 
 ## App-specific password
@@ -39,21 +88,6 @@ Find here the official instructions on how to create an app-specific password:
 [support.apple.com/en-us/HT204397](https://support.apple.com/en-us/HT204397)
 
 Note: An API key generated from [appstoreconnect.apple.com/access/api](https://appstoreconnect.apple.com/access/api) site would also work, but is not implemented yet. Open an issue, if you need to use an API key and I'll implement it asap.
-
-
-## Parameters
-| key | required | default | description |
-| ----|----------|---------|-------------|
-| project-name | true |  | Name used in xcodebuild |
-| apple-id-username | true |   | Apple ID email |
-| apple-id-password | true |   | App specific password |
-| working-directory | false | . | Path to .project file |
-| godot-version | false | 3.5.3 | Check versions [here](https://github.com/huskeee/godot-headless-mac/releases) |
-| cache-version | false | 1 | Headless godot gets cached, on problems increase version |
-
-## Working examples
-You an find a working examples here:  
-https://github.com/dulvui/pocket-broomball/blob/main/.github/workflows/upload-ios.yml
 
 ## Certificate Request without a Mac
 To upload a game to the App Store, you need to create a Developer Certificate.
