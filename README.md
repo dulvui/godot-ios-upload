@@ -10,8 +10,9 @@ If you are facing problems with the action or this README feels incomplete, pull
     - [Parameters](#parameters)
     - [How to use](#how-to-use)
   - [Godot 3.x](#godot-3x)
-    - [Working examples](#working-examples)
     - [Parameters](#parameters-1)
+    - [Working examples](#working-examples)
+    - [Parameters](#parameters-2)
     - [Working examples](#working-examples-1)
   - [App-specific password](#app-specific-password)
   - [Certificate Request without a Mac](#certificate-request-without-a-mac)
@@ -28,7 +29,6 @@ You can find the code in the `main` branch.
  - Godot Project with a iOS Export
  - Certificate and Provision Profile
 
-
 ### Parameters
 | key | required | default | description |
 | ----|----------|---------|-------------|
@@ -36,8 +36,7 @@ You can find the code in the `main` branch.
 | apple-id-username | true |   | Apple ID email |
 | apple-id-password | true |   | App specific password |
 | working-directory | false | . | Path to .project file |
-| godot-version | false | 3.5.3 | Check versions [here](https://github.com/huskeee/godot-headless-mac/releases) |
-| cache-version | false | 1 | Headless godot gets cached, on problems increase version |
+| godot-version | false | 4.2.1 | Check versions [here](https://downloads.tuxfamily.org/godotengine/) |
 
 ### How to use
 Use the 4.x tag
@@ -55,6 +54,15 @@ Use the 4.x tag
 Godot 3.x is the current LTS version and will be less actively maintained.
 You can find the code in the `godot-3` branch.
 
+### Parameters
+| key | required | default | description |
+| ----|----------|---------|-------------|
+| project-name | true |  | Name used in xcodebuild |
+| apple-id-username | true |   | Apple ID email |
+| apple-id-password | true |   | App specific password |
+| working-directory | false | . | Path to .project file |
+| godot-version | false | 3.5.3 | Check versions [here](https://github.com/dulvui/godot-headless-mac/releases) |
+
 ### Working examples
 You an find a working examples here:  
 https://github.com/dulvui/pocket-broomball/blob/main/.github/workflows/upload-ios.yml  
@@ -69,7 +77,6 @@ https://github.com/dulvui/ball2box/blob/main/.github/workflows/upload-ios.yml
 | apple-id-password | true |   | App specific password |
 | working-directory | false | . | Path to .project file |
 | godot-version | false | 4.2.1 | Check versions [here](https://downloads.tuxfamily.org/godotengine/) |
-| cache-version | false | 1 | Headless godot gets cached, on problems increase version |
 
 ### Working examples
 You an find a working examples here:  
