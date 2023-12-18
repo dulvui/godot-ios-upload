@@ -57,9 +57,9 @@ runs:
         mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
         mv templates/* ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
 
-    - name: Open project once in editor and close again
-      shell: bash
-      run:  ./Godot.app/Contents/MacOS/Godot --editor --headless --path ${{ inputs.working-directory }} --quit
+    # - name: Open project once in editor and close again
+    #   shell: bash
+    #   run:  ./Godot.app/Contents/MacOS/Godot --editor --headless --path ${{ inputs.working-directory }} --quit
 
     - name: Godot iOS export
       shell: bash
