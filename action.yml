@@ -43,7 +43,7 @@ runs:
       with:
         path: |
           Godot.app
-          ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
+           /Users/runner/Library/Application Support/Godot/
         key: ${{ runner.os }}-godot-${{ inputs.godot-version }}
 
     - name: Download and config Godot Engine linux server and templates
@@ -56,10 +56,6 @@ runs:
         unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
         mv templates/* ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
-
-    # - name: Open project once in editor and close again
-    #   shell: bash
-    #   run:  ./Godot.app/Contents/MacOS/Godot --editor --headless --path ${{ inputs.working-directory }} --quit
 
     - name: Godot iOS export
       shell: bash
