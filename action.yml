@@ -50,8 +50,8 @@ runs:
       shell: bash
       if: steps.cache-godot.outputs.cache-hit != 'true'
       run: |
-        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
-        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
+        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
         unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
         mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
