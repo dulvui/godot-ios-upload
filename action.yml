@@ -63,6 +63,7 @@ runs:
 
     - name: Open project once to import assets
       shell: bash
+      continue-on-error: true # timeout will exit with code 124
       run: gtimeout 25 ./Godot.app/Contents/MacOS/Godot --headless --path ${{ inputs.working-directory }} -e
 
     - name: Godot iOS export
