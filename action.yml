@@ -57,9 +57,13 @@ runs:
         mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
         mv templates/* ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
 
+    - name: Install coreutils for gtimeout
+      shell: bash
+      run: brew install coreutils
+
     - name: Open project once to import assets
       shell: bash
-      run: ./Godot.app/Contents/MacOS/Godot --headless --path ${{ inputs.working-directory }} --quit-after 10
+      run: gtimeout 25 ./Godot.app/Contents/MacOS/Godot --headless --path ${{ inputs.working-directory }} -e
 
     - name: Godot iOS export
       shell: bash
