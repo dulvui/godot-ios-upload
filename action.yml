@@ -12,9 +12,12 @@ inputs:
     required: false
     default: '.'
   godot-version:
-    description: 'Godot Engine version'
+    description: 'Godot Engine version. Supported are 4.x versions'
+    required: true
+  godot-channel:
+    description: 'Godot Engine release channel (${{ inputs.godot-channel}}, beta, rc1, rc2, rc3...). Defaults to ${{ inputs.godot-channel}}'
     required: false
-    default: '4.2.2'
+    default: '${{ inputs.godot-channel}}'
   project-name:
     description: 'Project name used for xarchive building'
     required: true
@@ -50,12 +53,12 @@ runs:
       shell: bash
       if: steps.cache-godot.outputs.cache-hit != 'true'
       run: |
-        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
-        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        unzip Godot_v${{ inputs.godot-version }}-stable_macos.universal.zip
-        unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
-        mv templates/* ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.stable
+        wget -q https://github.com/godotengine/godot-builds/releases/download/${{ inputs.godot-version }}-${{ inputs.godot-channel}}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel}}_macos.universal.zip
+        wget -q https://github.com/godotengine/godot-builds/releases/download/${{ inputs.godot-version }}-${{ inputs.godot-channel}}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel}}_export_templates.tpz
+        unzip Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel}}_macos.universal.zip
+        unzip Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel}}_export_templates.tpz
+        mkdir -p ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.${{ inputs.godot-channel}}
+        mv templates/* ~/Library/Application\ Support/Godot/export_templates/${{ inputs.godot-version }}.${{ inputs.godot-channel}}
 
     - name: Install coreutils for gtimeout
       shell: bash

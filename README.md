@@ -35,8 +35,10 @@ You can find the code in the `main` branch.
 | project-name | true |  | Name used in xcodebuild |
 | apple-id-username | true |   | Apple ID email |
 | apple-id-password | true |   | App specific password |
+| godot-version | true | . | Godot Engine version. Supported are 4.x versions. Check versions [here](https://github.com/godotengine/godot-builds/releases) |
+| godot-channel | false | stable | Godot Engine release channel (stable, beta, rc1, rc2, rc3...). Defaults to 'stable' Check release channels [here](https://github.com/godotengine/godot-builds/releases) |
 | working-directory | false | . | Path to .project file |
-| godot-version | false | 4.2.1 | Check versions [here](https://downloads.tuxfamily.org/godotengine/) |
+
 
 ### How to use
 Use the 4.x tag
@@ -45,6 +47,7 @@ Use the 4.x tag
   uses: dulvui/godot-ios-upload@v4
   with:
     project-name: FutsalManager
+    godot-version: 4.2.2
     provision-profile-path: ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
     apple-id-username: ${{ secrets.IOS_APPLE_ID_USERNAME }}
     apple-id-password: ${{ secrets.IOS_APPLE_ID_PASSWORD }}
