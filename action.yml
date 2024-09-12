@@ -12,9 +12,12 @@ inputs:
     required: false
     default: '.'
   godot-version:
-    description: 'Godot Engine version'
+    description: 'Godot Engine version. Supported are 3.x versions'
+    required: true
+  godot-channel:
+    description: 'Godot Engine release channel (stable, beta, rc1, rc2, rc3...). Defaults to "stable"'
     required: false
-    default: '3.5.3'
+    default: 'stable'
   project-name:
     description: 'Project name used for xarchive building'
     required: true
@@ -51,17 +54,19 @@ runs:
       if: steps.cache-godot.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        wget -q https://github.com/dulvui/godot-headless-mac/releases/download/${{ inputs.godot-version }}-stable/Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
-        wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        unzip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
-        unzip Godot_v${{ inputs.godot-version }}-stable_mac_headless.64.zip
+        wget -q https://github.com/dulvui/godot-headless-mac/releases/download/${{ inputs.godot-version }}-${{ inputs.godot-channel }}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_mac_headless.64.zip
+        wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_export_templates.tpz
+        unzip Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_export_templates.tpz
+        unzip Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_mac_headless.64.zip
         mkdir -p ~/.config/godot
-        mkdir -p ~/.local/share/godot/templates/${{ inputs.godot-version }}.stable
-        mv templates/* ~/.local/share/godot/templates/${{ inputs.godot-version }}.stable
+        mkdir -p ~/.local/share/godot/templates/${{ inputs.godot-version }}.${{ inputs.godot-channel }}
+        mv templates/* ~/.local/share/godot/templates/${{ inputs.godot-version }}.${{ inputs.godot-channel }} 
         mv bin/godot .
-        ./godot -e -q
 
-        rm -f Godot_v${{ inputs.godot-version }}-stable_linux_headless.64.zip Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+    - name: Open project once to import assets in editor mode
+      shell: bash
+      continue-on-error: true # timeout will exit with code 124
+      run: timeout 25 godot --path ${{ inputs.working-directory }} -e
 
     - name: Godot iOS export
       shell: bash
