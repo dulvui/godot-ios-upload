@@ -15,9 +15,9 @@ inputs:
     description: 'Godot Engine version. Supported are 4.x versions'
     required: true
   godot-channel:
-    description: 'Godot Engine release channel (${{ inputs.godot-channel}}, beta, rc1, rc2, rc3...). Defaults to ${{ inputs.godot-channel}}'
+    description: 'Godot Engine release channel (stable, beta, rc1, rc2, rc3...). Defaults to stable'
     required: false
-    default: '${{ inputs.godot-channel}}'
+    default: 'stable'
   project-name:
     description: 'Project name used for xarchive building'
     required: true
@@ -47,7 +47,7 @@ runs:
         path: |
           Godot.app
            /Users/runner/Library/Application Support/Godot/
-        key: ${{ runner.os }}-godot-${{ inputs.godot-version }}
+        key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-${{ inputs.godot-channel }}
 
     - name: Download and config Godot Engine linux server and templates
       shell: bash
