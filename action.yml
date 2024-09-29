@@ -46,7 +46,7 @@ runs:
       with:
         path: |
           Godot.app
-           /Users/runner/Library/Application Support/Godot/
+           /Users/runner/Library/Application\ Support/Godot/
         key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-${{ inputs.godot-channel }}
 
     - name: Download and config Godot Engine linux server and templates
