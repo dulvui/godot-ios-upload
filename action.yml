@@ -55,7 +55,7 @@ runs:
       shell: bash
       run: |
         wget -q https://github.com/dulvui/godot-headless-mac/releases/download/${{ inputs.godot-version }}-${{ inputs.godot-channel }}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_mac_headless.64.zip
-        wget -q https://downloads.tuxfamily.org/godotengine/${{ inputs.godot-version }}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_export_templates.tpz
+        wget -q https://github.com/godotengine/godot/releases/download/${{ inputs.godot-version }}-${{ inputs.godot-channel }}/Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_export_templates.tpz
         unzip Godot_v${{ inputs.godot-version }}-${{ inputs.godot-channel }}_mac_headless.64.zip
         mkdir -p ~/.config/godot
