@@ -87,7 +87,7 @@ https://github.com/dulvui/ball2box/blob/main/.github/workflows/upload-ios.yml
 
 ### Working examples
 You an find a working examples here:  
-https://github.com/dulvui/futsal-manager/blob/main/.github/workflows/upload-ios.yml
+https://github.com/dulvui/99managers-futsal-edition/blob/ad492d029537519dd34eef19122d72a8a1eeb197/.github/workflows/upload-ios.yml
 
 
 ## App-specific password
