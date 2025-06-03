@@ -1,3 +1,7 @@
+# ARCHIVED
+This action has been archived and will no longer be maintained.
+Please create your own fork.
+
 # godot-ios-upload
 Github Action to export a Godot 3.x and 4.x game to iOS and upload it on App Store.  
 If you are facing problems with the action or this README feels incomplete, pull requests are welcome or open an issue.
